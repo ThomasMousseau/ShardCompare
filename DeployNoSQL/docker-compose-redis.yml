@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  redis-master:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  redis-replica1:
+    image: redis:latest
+    command: redis-server --replicaof redis-master 6379
+
+  redis-replica2:
+    image: redis:latest
+    command: redis-server --replicaof redis-master 6379

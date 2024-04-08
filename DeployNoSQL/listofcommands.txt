@@ -1,0 +1,10 @@
+pwd = /home/thomasm/ycsb-0.17.0
+
+workloada = 50/50 W/R
+
+workload = 10/90 W/R
+
+./bin/ycsb.sh run mongodb -s -P workloads/workloada > /home/thomasm/School/Poly-session-6/LOG8430/DeployNoSQL/testFolder1MgDB/firstRun.txt 
+
+./bin/ycsb.sh run redis -s -P workloads/workloada -p "redis.host=127.0.0.1" -p "redis.port=6379" > /home/thomasm/School/Poly-session-6/LOG8430/DeployNoSQL/tesFolder1Redis/firstRun.txt  
+

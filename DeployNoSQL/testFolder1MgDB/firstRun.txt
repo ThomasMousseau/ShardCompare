@@ -1,0 +1,33 @@
+/home/thomasm/.sdkman/candidates/java/current/bin/java  -classpath /home/thomasm/ycsb-0.17.0/conf:/home/thomasm/ycsb-0.17.0/lib/core-0.17.0.jar:/home/thomasm/ycsb-0.17.0/lib/HdrHistogram-2.1.4.jar:/home/thomasm/ycsb-0.17.0/lib/htrace-core4-4.1.0-incubating.jar:/home/thomasm/ycsb-0.17.0/lib/jackson-core-asl-1.9.4.jar:/home/thomasm/ycsb-0.17.0/lib/jackson-mapper-asl-1.9.4.jar:/home/thomasm/ycsb-0.17.0/mongodb-binding/lib/logback-classic-1.1.2.jar:/home/thomasm/ycsb-0.17.0/mongodb-binding/lib/logback-core-1.1.2.jar:/home/thomasm/ycsb-0.17.0/mongodb-binding/lib/mongodb-async-driver-2.0.1.jar:/home/thomasm/ycsb-0.17.0/mongodb-binding/lib/mongodb-binding-0.17.0.jar:/home/thomasm/ycsb-0.17.0/mongodb-binding/lib/mongo-java-driver-3.8.0.jar:/home/thomasm/ycsb-0.17.0/mongodb-binding/lib/slf4j-api-1.7.25.jar:/home/thomasm/ycsb-0.17.0/mongodb-binding/lib/snappy-java-1.1.7.1.jar site.ycsb.Client -t -db site.ycsb.db.MongoDbClient -s -P workloads/workloada
+mongo client connection created with mongodb://localhost:27017/ycsb?w=1
+[OVERALL], RunTime(ms), 1220
+[OVERALL], Throughput(ops/sec), 819.672131147541
+[TOTAL_GCS_G1_Young_Generation], Count, 2
+[TOTAL_GC_TIME_G1_Young_Generation], Time(ms), 7
+[TOTAL_GC_TIME_%_G1_Young_Generation], Time(%), 0.5737704918032787
+[TOTAL_GCS_G1_Old_Generation], Count, 0
+[TOTAL_GC_TIME_G1_Old_Generation], Time(ms), 0
+[TOTAL_GC_TIME_%_G1_Old_Generation], Time(%), 0.0
+[TOTAL_GCs], Count, 2
+[TOTAL_GC_TIME], Time(ms), 7
+[TOTAL_GC_TIME_%], Time(%), 0.5737704918032787
+[READ], Operations, 486
+[READ], AverageLatency(us), 665.3497942386831
+[READ], MinLatency(us), 446
+[READ], MaxLatency(us), 9703
+[READ], 95thPercentileLatency(us), 957
+[READ], 99thPercentileLatency(us), 1390
+[READ], Return=OK, 486
+[CLEANUP], Operations, 1
+[CLEANUP], AverageLatency(us), 1831.0
+[CLEANUP], MinLatency(us), 1831
+[CLEANUP], MaxLatency(us), 1831
+[CLEANUP], 95thPercentileLatency(us), 1831
+[CLEANUP], 99thPercentileLatency(us), 1831
+[UPDATE], Operations, 514
+[UPDATE], AverageLatency(us), 779.0642023346303
+[UPDATE], MinLatency(us), 438
+[UPDATE], MaxLatency(us), 62303
+[UPDATE], 95thPercentileLatency(us), 945
+[UPDATE], 99thPercentileLatency(us), 1501
+[UPDATE], Return=OK, 514
