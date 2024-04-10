@@ -4,7 +4,7 @@
 networkName="mongo-cluster"
 replicaSetName="rs0"
 mongoImage="mongo:4.4" 
-numNodes=3  #! A changer de 3 à 5
+numNodes=3  #! 3 ou 5
 current_iteration=1
 MAX_ITERATION=10
 host_data_dir="/home/thomasm/School/Poly-session-6/LOG8430/DeployNoSQL/current_data"

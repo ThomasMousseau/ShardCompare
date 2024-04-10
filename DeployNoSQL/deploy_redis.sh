@@ -3,7 +3,7 @@
 # Configuration
 networkName="redis-replication"
 redisImage="redis:6.2.5" #redis:7.2.3
-num_slave_nodes=2  
+num_slave_nodes=2  #! 2 ou 4
 current_iteration=1
 host_data_dir="/home/thomasm/School/Poly-session-6/LOG8430/DeployNoSQL/current_data"
 MAX_ITERATION=10
