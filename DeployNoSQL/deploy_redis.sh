@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Configuration
-networkName="redis-replication"
-redisImage="redis:6.2.5" #redis:7.2.3
+network_name="redis-replication"
+redis_image="redis:6.2.5" #redis:7.2.3
 num_slave_nodes=2  #! 2 ou 4
 current_iteration=1
 host_data_dir="/home/thomasm/School/Poly-session-6/LOG8430/DeployNoSQL/current_data"
@@ -12,19 +12,19 @@ name=("redis-master" "redis-slave1" "redis-slave2")
 
 deploy_redis() {
 
-    docker network create ${networkName}
+    docker network create ${network_name}
     
     #Start Redis containers
     docker run -d \
     --name ${name[0]} \
-    --network $networkName \
+    --network $network_name \
     -p 6379:6379 \
-    $redisImage \
+    $redis_image \
     redis-server --appendonly yes --bind 0.0.0.0
 
     for i in $(seq 1 $num_slave_nodes); do
     #echo "Starting Redis slave $i && ${name[i]}"
-    docker run -d --name redis-slave${i} --network ${networkName} ${redisImage} \
+    docker run -d --name redis-slave${i} --network ${network_name} ${redis_image} \
         redis-server --slaveof redis-master 6379 --appendonly yes --bind 0.0.0.0
     done
 
@@ -45,7 +45,7 @@ run_ycsb() {
     redis_master_ip=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "redis-master")
     echo "Redis master IP: ${redis_master_ip}"
 
-    docker run -d --name "ycsb${current_iteration}" --network ${networkName} -v "${current_data_dir}:/usr/src/ycsb/data" thomasmousseau/ycsb-0.17.0:latest /bin/sh -c "
+    docker run -d --name "ycsb${current_iteration}" --network ${network_name} -v "${current_data_dir}:/usr/src/ycsb/data" thomasmousseau/ycsb-0.17.0:latest /bin/sh -c "
 
     mkdir data; 
 
@@ -60,7 +60,7 @@ run_ycsb() {
 delete_cluster() {
     docker rm -f $(docker ps -a -q --filter="name=redis")
     docker rm -f $(docker ps -a -q --filter="name=ycsb")
-    docker network rm ${networkName}
+    docker network rm ${network_name}
 }
 
 for current_iteration in $(seq 1 ${MAX_ITERATION}); do

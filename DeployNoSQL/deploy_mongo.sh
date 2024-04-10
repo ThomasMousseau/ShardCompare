@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Configuration
-networkName="mongo-cluster"
-replicaSetName="rs0"
-mongoImage="mongo:4.4" 
-numNodes=3  #! 3 ou 5
+network_name="mongo-cluster"
+replica_set_name="rs0"
+mongo_image="mongo:4.4" 
+number_nodes=3  #! 3 ou 5
 current_iteration=1
 MAX_ITERATION=10
 host_data_dir="/home/thomasm/School/Poly-session-6/LOG8430/DeployNoSQL/current_data"
@@ -12,13 +12,13 @@ container_data_dir="/usr/src/ycsb/data"
 
 
 deploy_mongo() {
-    docker network create ${networkName}
+    docker network create ${network_name}
 
     # Démarrage des conteneurs MongoDB
     port=27017 
-    for i in $(seq 1 ${numNodes}); do
-        docker run -d --name "mongo${i}" -p ${port}:27017 --net ${networkName} \
-            ${mongoImage} mongod --replSet ${replicaSetName} --bind_ip_all
+    for i in $(seq 1 ${number_nodes}); do
+        docker run -d --name "mongo${i}" -p ${port}:27017 --net ${network_name} \
+            ${mongo_image} mongod --replSet ${replica_set_name} --bind_ip_all
         port=$((port+1))
     done
 
@@ -28,16 +28,16 @@ deploy_mongo() {
     # Construction de l'URI de connexion à MongoDB
     # port=27017 
     # mongodb_uri="mongodb://"
-    # for i in $(seq 1 ${numNodes}); do
+    # for i in $(seq 1 ${number_nodes}); do
     #     mongodb_uri+="mongo${i}:27017,"
     #     port=$((port+1))
     # done
-    # mongodb_uri=${mongodb_uri%,}/ycsb?replicaSet=${replicaSetName}"&w=1"
+    # mongodb_uri=${mongodb_uri%,}/ycsb?replicaSet=${replica_set_name}"&w=1"
 
     docker exec -ti mongo1 mongo --eval "rs.initiate({
-      _id: '${replicaSetName}',
+      _id: '${replica_set_name}',
       members: [
-        $(for i in $(seq 1 ${numNodes}); do echo "{ _id: $((i-1)), host: 'mongo${i}:27017' },"; done | sed '$s/,$//')
+        $(for i in $(seq 1 ${number_nodes}); do echo "{ _id: $((i-1)), host: 'mongo${i}:27017' },"; done | sed '$s/,$//')
       ]
     })"
     echo "L'ensemble de réplicas MongoDB a été initialisé."
@@ -56,7 +56,7 @@ run_ycsb() {
 
     mkdir -p ${current_data_dir}
 
-    docker run -d --name "ycsb${current_iteration}" --network ${networkName} -v "${current_data_dir}:/usr/src/ycsb/data" thomasmousseau/ycsb-0.17.0:latest /bin/sh -c "
+    docker run -d --name "ycsb${current_iteration}" --network ${network_name} -v "${current_data_dir}:/usr/src/ycsb/data" thomasmousseau/ycsb-0.17.0:latest /bin/sh -c "
 
     mkdir data; 
 
@@ -71,7 +71,7 @@ run_ycsb() {
 delete_cluster() {
     docker rm -f $(docker ps -a -q --filter="name=mongo")
     docker rm -f $(docker ps -a -q --filter="name=ycsb")
-    docker network rm ${networkName}
+    docker network rm ${network_name}
 }
 
 for current_iteration in $(seq 1 ${MAX_ITERATION}); do
