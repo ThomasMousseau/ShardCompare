@@ -2,14 +2,59 @@ version: '3'
 
 services:
   redis-master:
-    image: redis:latest
+    image: redis:7.2.3
+    container_name: redis-master
+    # hostname: redis-master
+    command: redis-server --bind 0.0.0.0 --protected-mode no
     ports:
       - "6379:6379"
+    networks:
+      - redis-replication
 
-  redis-replica1:
-    image: redis:latest
-    command: redis-server --replicaof redis-master 6379
+  redis-slave1:
+    image: redis:7.2.3
+    container_name: redis-slave1
+    ports:
+      - "6380:6379"
+    command: redis-server --slaveof redis-master 6379
+    depends_on:
+      - redis-master
+    networks:
+      - redis-replication
 
-  redis-replica2:
-    image: redis:latest
-    command: redis-server --replicaof redis-master 6379
+  redis-slave2:
+    image: redis:7.2.3
+    container_name: redis-slave2
+    ports:
+      - "6381:6379"
+    command: redis-server --slaveof redis-master 6379
+    depends_on:
+      - redis-master
+    networks:
+      - redis-replication
+
+  # redis-slave3:
+  #   image: redis:7.2.3
+  #   container_name: redis-slave3
+  #   ports:
+  #     - "6382:6379"
+  #   command: redis-server --slaveof redis-master 6379
+  #   depends_on:
+  #     - redis-master
+  #   networks:
+  #     - redis-replication
+
+  # redis-slave4:
+  #   image: redis:7.2.3
+  #   container_name: redis-slave4
+  #   ports:
+  #     - "6383:6379"
+  #   command: redis-server --slaveof redis-master 6379
+  #   depends_on:
+  #     - redis-master
+  #   networks:
+  #     - redis-replication
+
+networks:
+  redis-replication:
+    driver: bridge
